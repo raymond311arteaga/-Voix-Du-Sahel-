@@ -1,8 +1,5 @@
-﻿# OS / editor
-.DS_Store
+﻿.DS_Store
 Thumbs.db
 .vscode/
-
-# Build / deps (por si a futuro usas npm)
 node_modules/
 dist/

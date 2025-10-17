@@ -6,6 +6,67 @@ const db = getFirestore(app);
 const $ = (s,el=document)=>el.querySelector(s);
 const $$ = (s,el=document)=>Array.from(el.querySelectorAll(s));
 
+/* ===== Default content (del documento que mandaste) ===== */
+const DEFAULT_HERO = {
+  hero_title_en: "Crisis in the Sahel: Between Terrorism and Hopes for Peace",
+  hero_desc_en : "Explainers and reporting on security, diplomacy and humanitarian crises across the Sahel.",
+  hero_title_fr: "Crise au Sahel : entre terrorisme et espoirs de paix",
+  hero_desc_fr : "Décryptages et reportages sur la sécurité, la diplomatie et les crises humanitaires au Sahel."
+};
+
+// Feed único (6 notas)
+const DEFAULT_FEED = [
+  {
+    section:"security", id:"boko_rural_shift", order:1,
+    mediaUrl:"https://images.unsplash.com/photo-1520509414578-d9cbf09933a1?q=80&w=1600&auto=format&fit=crop",
+    title_en:"Boko Harams rural shift intensifies civilian targeting",
+    desc_en :"After emergency measures, the group adapted to rural operations using kidnappings and suicide bombers as factions compete for recruits.",
+    title_fr:"Le basculement rural de Boko Haram accroît les attaques contre les civils",
+    desc_fr :"Après les mesures durgence, le groupe sest adapté aux opérations rurales en recourant aux enlèvements et aux kamikazes, tandis que ses factions rivalisent pour recruter."
+  },
+  {
+    section:"security", id:"aes_ecowas_split", order:2,
+    mediaUrl:"https://images.unsplash.com/photo-1529119368496-2dfda6ec2804?q=80&w=1600&auto=format&fit=crop",
+    title_en:"Mali, Niger and Burkina exit ECOWAS and launch a Sahel alliance",
+    desc_en :"The withdrawal signals deepening rifts as insecurity spreads across borders and new regional structures emerge.",
+    title_fr:"Mali, Niger et Burkina quittent la CEDEAO et lancent une alliance sahélienne",
+    desc_fr :"Ce retrait traduit des fractures croissantes alors que linsécurité sétend aux zones frontalières et que de nouvelles structures régionales émergent."
+  },
+  {
+    section:"diplomacy", id:"m23_ceasefire_push", order:3,
+    mediaUrl:"https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
+    title_en:"UN presses M23 and DRC to honor ceasefire commitments",
+    desc_en :"Talks urge withdrawal from seized areas and safe returns as violations continue in North and South Kivu.",
+    title_fr:"LONU presse le M23 et la RDC de respecter le cessez-le-feu",
+    desc_fr :"Les pourparlers demandent un retrait des zones occupées et des retours sûrs alors que les violations se poursuivent au Nord et au Sud-Kivu."
+  },
+  {
+    section:"diplomacy", id:"au_security_arch", order:4,
+    mediaUrl:"https://images.unsplash.com/photo-1491555103944-7c647fd857e6?q=80&w=1600&auto=format&fit=crop",
+    title_en:"AU security architecture scales up counter-terror coordination",
+    desc_en :"ACSRT/AUCTC, early-warning systems and AFRIPOL drive training, intel-sharing and cross-border policing with UN backing.",
+    title_fr:"Larchitecture de sécurité de lUA intensifie la coordination antiterroriste",
+    desc_fr :"Le CAERT/AUCTC, les systèmes dalerte précoce et AFRIPOL impulsent formation, partage de renseignement et police transfrontalière avec lappui de lONU."
+  },
+  {
+    section:"humanitarian", id:"sudan_rsf_camps", order:5,
+    mediaUrl:"https://images.unsplash.com/photo-1520508168227-5ac05b93f493?q=80&w=1600&auto=format&fit=crop",
+    title_en:"Sudan crisis: RSF sieges of camps heighten famine risk",
+    desc_en :"Strikes on displacement sites and blocked aid push displacement past 12 million while hospitals and water systems collapse.",
+    title_fr:"Crise au Soudan : les sièges des camps par les FSR aggravent le risque de famine",
+    desc_fr :"Les frappes contre les sites de déplacés et les blocages de laide portent les déplacements au-delà de 12 millions tandis que les hôpitaux et réseaux deau seffondrent."
+  },
+  {
+    section:"humanitarian", id:"sahel_food_outlook", order:6,
+    mediaUrl:"https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1600&auto=format&fit=crop",
+    title_en:"Sahel hunger outlook: acute food insecurity widens",
+    desc_en :"Conflict, climate shocks and displacement leave millions at risk; agencies warn of escalating needs across the belt.",
+    title_fr:"Perspective de faim au Sahel : linsécurité alimentaire aiguë sétend",
+    desc_fr :"Conflits, chocs climatiques et déplacements mettent des millions en danger ; les agences alertent sur une hausse des besoins dans toute la bande sahélienne."
+  }
+];
+/* ========================================================= */
+
 export let lang = localStorage.getItem("lang") || "en";
 export const setLang = (v)=>{ lang=v; localStorage.setItem("lang",v); applyI18n(); render(); };
 
@@ -23,26 +84,27 @@ function applyI18n(){
 }
 
 async function loadHomepage(){
-  const snap = await getDoc(doc(db,"settings","homepage"));
-  return snap.exists()? snap.data() : {};
+  const snap = await getDoc(doc(db,"settings","homepage")).catch(()=>null);
+  return snap && snap.exists()? snap.data() : DEFAULT_HERO;
 }
 
 async function loadAllCards(){
-  // leemos todas las secciones y las convertimos en un solo array (feed)
-  const qSecs = query(collection(db,"sections"), orderBy("order","asc"));
-  const secSn = await getDocs(qSecs);
-  const feed = [];
-  for (const s of secSn.docs){
-    const secId = s.id;
-    const cardsQ = query(collection(s.ref,"cards"), orderBy("order","asc"));
-    const cardsSn = await getDocs(cardsQ);
-    cardsSn.docs.forEach(d=>{
-      feed.push({ section:secId, id:d.id, ...d.data() });
-    });
+  try{
+    const qSecs = query(collection(db,"sections"), orderBy("order","asc"));
+    const secSn = await getDocs(qSecs);
+    const feed = [];
+    for (const s of secSn.docs){
+      const cardsQ = query(collection(s.ref,"cards"), orderBy("order","asc"));
+      const cardsSn = await getDocs(cardsQ);
+      cardsSn.docs.forEach(d=> feed.push({ section:s.id, id:d.id, ...d.data() }));
+    }
+    feed.sort((a,b)=> (a.order||999)-(b.order||999));
+    // Si Firestore no tiene nada, usa default
+    return feed.length ? feed : DEFAULT_FEED;
+  }catch(e){
+    // Si hay error (p.ej. reglas), mostramos default
+    return DEFAULT_FEED;
   }
-  // orden simple: por "order" y luego por sección
-  feed.sort((a,b)=> (a.order||999)-(b.order||999));
-  return feed;
 }
 
 function mediaNode(url, alt){
@@ -56,6 +118,7 @@ function mediaNode(url, alt){
 
 export async function render(){
   applyI18n();
+
   const hp = await loadHomepage();
   $("#heroTitle").textContent = hp[`hero_title_${lang}`] || "";
   $("#heroDesc").textContent  = hp[`hero_desc_${lang}`]  || "";
