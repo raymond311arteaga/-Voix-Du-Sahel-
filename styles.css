@@ -1,50 +1,156 @@
-﻿:root{--brand:#1e3a8a;--ink:#0b1221;--muted:#6b7280;--line:#1f2937;--bg:#0f1625;--blue:#2563eb;--green:#16a34a;--danger:#ef4444}
-*{box-sizing:border-box} body{margin:0;background:#0f1625;color:#e5e7eb;font-family:Inter,system-ui}
-.container{max-width:1200px;margin:0 auto;padding:0 18px}
-.site-header{position:sticky;top:0;background:#0b1221;color:#fff;border-bottom:1px solid #0b1221;z-index:20}
-.masthead{display:flex;align-items:center;justify-content:space-between;padding:16px 0}
-.brand{font-family:"Playfair Display",serif;font-weight:900;font-size:34px}
+﻿/* =============== */
+/*  Design Tokens  */
+/* =============== */
+:root{
+  --bg: #0b1324;
+  --bg-2: #0f172a;
+  --panel: #111827;
+  --ink: #e5e7eb;
+  --muted: #94a3b8;
+  --brand: #2563eb;
+  --brand-2: #1d4ed8;
+  --ok: #10b981;
+  --warn: #f59e0b;
+  --danger: #ef4444;
+  --bd: #1f2937;
+  --ring: 0 0 0 3px rgba(37,99,235,.25);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  color:var(--ink);
+  background:linear-gradient(180deg,#0b1324,#0b1324 50%,#0a1020 100%) fixed;
+}
+img{max-width:100%;display:block}
+
+/* ========== */
+/*  Layout    */
+/* ========== */
+.container{width:100%;max-width:1400px;margin:0 auto;padding:0 18px}
+
+/* ========== */
+/*  Buttons   */
+/* ========== */
+.btn{
+  background:#0f172a;color:#e5e7eb;border:1px solid var(--bd);
+  border-radius:10px;padding:8px 14px;font-weight:700;cursor:pointer
+}
+.btn.primary{background:var(--brand);border-color:var(--brand-2)}
+.btn:hover{filter:brightness(1.04)}
+.badge{
+  position:absolute;top:10px;left:10px;
+  background:#0f172a;color:#e5e7eb;border:1px solid var(--bd);
+  padding:4px 8px;border-radius:999px;font-size:12px;font-weight:800
+}
+
+/* ========== */
+/*  Header    */
+/* ========== */
+.site-header{border-bottom:1px solid var(--bd);position:sticky;top:0;background:rgba(11,19,36,.7);backdrop-filter:blur(6px);z-index:50}
+.masthead{display:flex;align-items:center;justify-content:space-between;height:68px}
+.brand{font-family:"Playfair Display",serif;font-weight:900;font-size:28px}
 .brand.sm{font-size:22px}
-.mast-actions{display:flex;gap:10px;align-items:center}.date{opacity:.85;font-weight:700}
-.btn{border:1px solid var(--line);background:#111827;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;color:#e5e7eb}
-.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)} .btn.success{background:var(--green);color:#fff;border-color:var(--green)}
-.btn.danger{background:var(--danger);color:#fff;border-color:var(--danger)}
-.kicker{opacity:.85;font-weight:700}
-.hero{background:linear-gradient(180deg,#0b1221,#111827);color:#fff;padding:64px 0}
-.hero h1{font-family:"Playfair Display",serif;font-weight:900;font-size:42px;margin:12px 0}
-.lead{font-size:18px;max-width:900px;opacity:.92}
-section.block{margin:36px 0}
-h2{font-family:"Playfair Display",serif;font-size:28px;border-bottom:5px solid var(--blue);display:inline-block;margin-bottom:14px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
-.card{background:#0f172a;border-radius:16px;box-shadow:0 10px 25px rgba(2,6,23,.3);overflow:hidden;min-height:360px;border:1px solid #1f2937;position:relative}
-.card .meta{padding:16px}
-.media{height:190px;background:#0b1324;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.media img,.media iframe,.media video{width:100%;height:100%;object-fit:cover;border:0}
-.card h3{font-family:"Playfair Display",serif;font-size:22px;margin:6px 0 8px;color:#fff}
-.card p{color:#cbd5e1;font-size:15px;line-height:1.55;margin:0}
-.badge{position:absolute;top:10px;left:10px;background:#111827;color:#fff;border-radius:999px;padding:6px 10px;font-size:12px;font-weight:700;display:none}
-.tools{position:absolute;top:10px;right:10px;display:none;gap:8px}
-.tool{background:rgba(0,0,0,.6);border:none;color:#fff;border-radius:999px;padding:8px 10px;cursor:pointer}
-.editor-fab{position:fixed;bottom:26px;right:26px;display:none}
-.toast{position:fixed;bottom:16px;left:16px;background:#0b1221;color:#fff;padding:12px 16px;border-radius:12px;font-weight:700;display:none}
+.mast-actions{display:flex;gap:12px;align-items:center}
+.date{color:var(--muted);font-size:14px}
 
-.site-footer{margin-top:60px;background:#0b1221;color:#cbd5e1;padding:30px 0;border-top:1px solid #0b1221}
-.footer-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px}
-.footer-grid a{color:#e5e7eb;text-decoration:none}
-.tiny{font-size:12px} .muted{color:#94a3b8}
+/* ===== Hero (igual al original) ===== */
+.hero{padding:22px 0;border-bottom:1px solid var(--bd)}
+.kicker{color:var(--muted);font-weight:800;letter-spacing:.3px}
+#heroTitle{
+  font-family:"Playfair Display",serif;font-weight:900;
+  font-size:clamp(24px,3.4vw,40px);margin:10px 0 6px
+}
+.lead{color:var(--muted);max-width:900px}
 
-dialog{border:none;border-radius:14px;width:min(560px,92vw);padding:0;box-shadow:0 20px 60px rgba(2,6,23,.3)}
-.modal{padding:26px}.modal h3{font-family:"Playfair Display",serif;font-size:28px;margin:0 0 16px}
-.field{display:grid;margin:12px 0} label{font-weight:700;margin-bottom:6px} input,textarea{padding:12px;border:1px solid var(--line);border-radius:10px;background:#0b1324;color:#e5e7eb}
+/* ====== BREAKING (texto centrado + video debajo) ====== */
+.breaking{
+  position:relative;width:100%;max-width:1400px;margin:18px auto 28px;padding:0 18px;
+  display:grid;gap:18px
+}
+.breaking-head{
+  position:relative;border-radius:18px;overflow:hidden;background:#0b1324;border:1px solid var(--bd);
+  box-shadow:0 22px 66px rgba(2,6,23,.45);
+  height:min(70vh,820px);display:flex;align-items:center;justify-content:center
+}
+.breaking-head::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(1200px 600px at 50% 40%, rgba(30,58,138,.18), rgba(2,6,23,.92))
+}
+.breaking-content{position:relative;z-index:1;text-align:center;color:#fff;padding:24px 18px;max-width:1100px}
+.breaking-pill{
+  display:inline-block;background:var(--danger);color:#fff;font-weight:900;
+  border-radius:999px;padding:8px 14px;font-size:12px;letter-spacing:.4px;
+  box-shadow:0 10px 28px rgba(239,68,68,.35);animation:pulse 1.8s ease-in-out infinite
+}
+.breaking-sub{margin-top:10px;font-size:clamp(13px,1.3vw,16px);opacity:.85}
+.breaking-title{
+  font-family:"Playfair Display",serif;font-weight:900;
+  font-size:clamp(28px,4.8vw,54px);line-height:1.05;margin:10px 0 8px
+}
+.breaking-lead{font-size:clamp(15px,1.6vw,20px);opacity:.95;margin:6px auto 0}
+.breaking-video{position:relative;border-radius:18px;overflow:hidden;background:#0b1324;border:1px solid var(--bd);box-shadow:0 22px 66px rgba(2,6,23,.45)}
+.breaking-frame{width:100%;height:min(70vh,820px);display:block;border:0}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+@media(max-width:900px){.breaking-head{height:58vh}.breaking-frame{height:58vh}}
 
-.drawer{position:fixed;top:0;right:-460px;width:460px;height:100vh;background:#0f172a;border-left:1px solid #1f2937;box-shadow:-20px 0 60px rgba(2,6,23,.2);transition:right .25s ease;z-index:50;display:flex;flex-direction:column;color:#e5e7eb}
-.drawer.open{right:0}
-.drawer-head{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid #1f2937}
-.status-dot{width:10px;height:10px;border-radius:999px;display:inline-block;margin-right:6px;background:#ef4444}
-.status-dot.ok{background:#16a34a}
-.drawer-body{padding:14px;overflow:auto}
-.editor-block{border:1px solid #1f2937;border-radius:12px;padding:12px;margin:0 0 16px}
-.split{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.save-all{position:sticky;bottom:0;background:#0f172a;border-top:1px solid #1f2937;padding:12px;display:flex;gap:8px;justify-content:flex-end}
-@media(max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:700px){.grid{grid-template-columns:1fr}.hero h1{font-size:32px}}
+/* ====== Feed ====== */
+.block{padding:8px 0}
+.grid{
+  display:grid;gap:18px;
+  grid-template-columns:repeat(12,1fr)
+}
+.card{
+  position:relative;background:var(--bg-2);border:1px solid var(--bd);border-radius:18px;overflow:hidden;
+  grid-column:span 6; /* 2 por fila en desktop */
+  box-shadow:0 18px 48px rgba(2,6,23,.35)
+}
+@media(max-width:1000px){.card{grid-column:span 12}}
+.media{aspect-ratio:16/9;background:#0b1324}
+.media img,.media video{width:100%;height:100%;object-fit:cover}
+.meta{padding:18px}
+.meta h3{font-family:"Playfair Display",serif;font-weight:900;font-size:clamp(18px,2.3vw,28px);margin:0 0 8px}
+.meta p{margin:0;color:var(--muted);line-height:1.5}
+.tools{
+  position:absolute;top:10px;right:10px;display:flex;gap:6px
+}
+.tool{
+  width:34px;height:34px;border-radius:10px;background:#0f172a;color:#e5e7eb;border:1px solid var(--bd);cursor:pointer
+}
+
+/* ====== Footer ====== */
+.site-footer{border-top:1px solid var(--bd);margin-top:30px;padding:24px 0}
+.footer-grid{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.muted{color:var(--muted)}
+.tiny{font-size:12px}
+
+/* ====== Drawer (Editor) ====== */
+.drawer{
+  position:fixed;right:0;top:0;bottom:0;width:min(420px,92vw);background:#0b1324;border-left:1px solid var(--bd);
+  box-shadow:-20px 0 60px rgba(0,0,0,.45);transform:translateX(120%);transition:.25s ease;z-index:60
+}
+.drawer.open{transform:translateX(0)}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;padding:14px;border-bottom:1px solid var(--bd)}
+.drawer-body{padding:14px;display:grid;gap:18px}
+.editor-block{border:1px solid var(--bd);border-radius:12px;padding:12px;background:#0f172a}
+.field{display:grid;gap:6px;margin-bottom:10px}
+.field input,.field textarea{
+  width:100%;background:#0b1324;border:1px solid var(--bd);color:#e5e7eb;border-radius:10px;padding:10px
+}
+.split{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+@media(max-width:600px){.split{grid-template-columns:1fr}}
+
+/* Floating action button */
+.editor-fab{
+  position:fixed;right:18px;bottom:18px;z-index:55;border-radius:999px;padding:12px 16px;font-weight:900
+}
+
+/* Toast */
+.toast{
+  position:fixed;left:50%;transform:translateX(-50%);
+  bottom:26px;background:#0f172a;color:#fff;border:1px solid var(--bd);padding:10px 14px;border-radius:10px;
+  box-shadow:0 10px 32px rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:.25s
+}
+.toast.show{opacity:1}
